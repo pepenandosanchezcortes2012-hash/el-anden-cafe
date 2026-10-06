@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EL ANDÉN CAFÉ · The Midnight Steam · Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --abyss:#030705; --forest:#0A140F; --plate:#0F1D16; --line:#1d2b24;
+    --gold:#FFE259; --molten:#FFA751; --emerald:#00FFA3; --sapphire:#00E5FF; --dim:#9FB3A8;
+    --head:'Oswald',Impact,sans-serif; --mono:'JetBrains Mono',Consolas,monospace; --serif:'Playfair Display',Georgia,serif;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--abyss); color:#fff; font-family:var(--serif); }
+  a { color:var(--emerald); }
+  .wrap { max-width:1280px; margin:0 auto; padding:0 32px; }
+
+  header { padding:64px 0 28px; text-align:center; background:radial-gradient(ellipse at 50% 0%, rgba(255,226,89,.10), transparent 60%); }
+  header .meta { font:700 12px var(--mono); letter-spacing:6px; color:var(--emerald); }
+  header h1 { font:700 clamp(48px,8vw,104px) var(--head); color:var(--gold); letter-spacing:10px; margin:14px 0 2px; text-shadow:0 0 40px rgba(255,226,89,.3); }
+  header h2 { font:700 clamp(18px,2.4vw,30px) var(--head); letter-spacing:16px; }
+  header p { font:italic 22px var(--serif); color:var(--molten); margin-top:18px; }
+
+  /* Player */
+  .player { margin-top:26px; border:1px solid var(--line); background:#000; }
+  video { width:100%; display:block; }
+  .hud { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--forest); border-top:1px solid var(--line); font:12px var(--mono); letter-spacing:2px; }
+  .hud .tc { color:var(--emerald); }
+  .hud button { background:none; border:1px solid var(--gold); color:var(--gold); font:700 12px var(--mono); letter-spacing:2px; padding:8px 16px; cursor:pointer; }
+  .hud button:hover { background:var(--gold); color:var(--abyss); }
+
+  .chapters { display:flex; margin-top:10px; gap:4px; }
+  .chap { position:relative; cursor:pointer; padding:14px 14px 12px; background:var(--plate); border-top:3px solid var(--c); transition:background .3s; overflow:hidden; }
+  .chap:hover { background:#16291f; }
+  .chap .fill { position:absolute; left:0; top:0; bottom:0; width:0; background:var(--c); opacity:.14; pointer-events:none; }
+  .chap.on { background:#16291f; }
+  .chap b { display:block; font:700 18px var(--head); letter-spacing:2px; color:var(--c); }
+  .chap span { font:11px var(--mono); color:var(--dim); }
+  .chap p { font-size:14px; color:var(--dim); margin-top:6px; line-height:1.4; }
+
+  section { padding:72px 0 0; }
+  .kicker { font:700 12px var(--mono); letter-spacing:5px; color:var(--emerald); margin-bottom:10px; }
+  h3.t { font:700 40px var(--head); letter-spacing:3px; text-transform:uppercase; margin-bottom:24px; }
+
+  .gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; }
+  .shot { cursor:pointer; position:relative; border:1px solid var(--line); background:#000; transition:transform .4s cubic-bezier(.16,1,.3,1), border-color .3s; }
+  .shot:hover { transform:translateY(-4px); border-color:var(--gold); }
+  .shot img { width:100%; display:block; }
+  .shot figcaption { display:flex; justify-content:space-between; padding:8px 10px; font:11px var(--mono); color:var(--dim); letter-spacing:1px; }
+  .shot figcaption b { color:var(--gold); font-weight:700; }
+
+  .optics { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  .card { background:var(--plate); border:1px solid var(--line); border-top:3px solid var(--c); padding:24px; }
+  .card h4 { font:700 21px var(--head); letter-spacing:2px; color:var(--c); text-transform:uppercase; margin-bottom:10px; }
+  .card p { color:var(--dim); font-size:16px; line-height:1.5; }
+  .card code { font:12px var(--mono); color:var(--gold); }
+
+  .palette { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+  .sw { cursor:pointer; border:1px solid var(--line); background:var(--plate); }
+  .sw div { height:110px; }
+  .sw p { padding:10px 12px; font:12px var(--mono); color:var(--gold); }
+  .sw p span { display:block; font:14px var(--serif); color:#fff; margin-bottom:2px; }
+
+  table { width:100%; border-collapse:collapse; }
+  td { padding:14px 18px; border-bottom:1px solid var(--line); background:var(--plate); font-size:17px; }
+  td:first-child { font:13px var(--mono); color:var(--gold); width:30%; letter-spacing:1px; }
+
+  .links { display:flex; gap:14px; flex-wrap:wrap; }
+  .links a { border:1px solid var(--emerald); padding:14px 22px; font:700 13px var(--mono); letter-spacing:2px; text-decoration:none; }
+  .links a:hover { background:var(--emerald); color:var(--abyss); }
+
+  footer { padding:80px 0 50px; text-align:center; font:italic 26px var(--serif); color:var(--gold); }
+  footer small { display:block; font:11px var(--mono); color:var(--dim); letter-spacing:3px; font-style:normal; margin-top:14px; }
+  #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--gold); color:var(--abyss); font:700 12px var(--mono); padding:10px 18px; letter-spacing:2px; transition:transform .4s cubic-bezier(.16,1,.3,1); }
+  #toast.show { transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="meta">CINEMATIC BRAND FILM · 15 s · 60 FPS · 100% SILENCIOSO</div>
+    <h1>EL ANDÉN CAFÉ</h1>
+    <h2>THE MIDNIGHT STEAM</h2>
+    <p>“Una pausa antes de seguir”</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="player">
+    <video id="v" src="el-anden-cafe.mp4" poster="frames/f640.png" muted playsinline preload="auto"></video>
+    <div class="hud">
+      <span class="tc" id="tc">TC 00:00:00:00 · F 000 / 900</span>
+      <span id="actLabel" style="color:var(--gold)">—</span>
+      <span>
+        <button id="slow">0.25×</button>
+        <button id="play">▶ REPRODUCIR</button>
+      </span>
+    </div>
+  </div>
+
+  <div class="chapters" id="chapters"></div>
+
+  <section>
+    <div class="kicker">FOTOGRAMAS CLAVE</div>
+    <h3 class="t">Galería · clic para saltar al frame</h3>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section>
+    <div class="kicker">MOTOR ÓPTICO</div>
+    <h3 class="t">Cómo se compensa el silencio</h3>
+    <div class="optics">
+      <div class="card" style="--c:var(--sapphire)"><h4>Aberración cromática</h4><p>R, G y B separados y recombinados en <code>mix-blend-mode: screen</code>. Picos de 2–4 px en f45, f200, f535 y f640.</p></div>
+      <div class="card" style="--c:var(--gold)"><h4>Destello anamórfico</h4><p>Destello horizontal zafiro/oro con <code>bezier(0.16, 1, 0.3, 1)</code> que cruza el sello entre f620 y f700.</p></div>
+      <div class="card" style="--c:var(--molten)"><h4>Distorsión de calor</h4><p><code>feTurbulence</code> + <code>feDisplacementMap</code>, con <code>baseFrequency</code> animada por frame.</p></div>
+      <div class="card" style="--c:var(--emerald)"><h4>Polvo dorado</h4><p>55–85 partículas deterministas con <code>Math.sin</code>/<code>Math.cos</code>: el mismo frame se ve igual en cada render.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">SISTEMA VISUAL</div>
+    <h3 class="t">Paleta · clic para copiar</h3>
+    <div class="palette" id="palette"></div>
+  </section>
+
+  <section>
+    <div class="kicker">ESPECIFICACIONES</div>
+    <h3 class="t">Ficha técnica</h3>
+    <table>
+      <tr><td>DURACIÓN</td><td>900 frames · 15.0 s exactos</td></tr>
+      <tr><td>FRAME RATE</td><td>60 fps</td></tr>
+      <tr><td>RESOLUCIÓN</td><td>1920×1080 (encuadre 2.39:1) · versión 4K 3840×2160</td></tr>
+      <tr><td>AUDIO</td><td>Ninguno, por diseño</td></tr>
+      <tr><td>STACK</td><td>Remotion 4 · React 18 · TypeScript estricto</td></tr>
+      <tr><td>ARTE</td><td>100% SVG paramétrico</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <div class="kicker">DESCARGAS</div>
+    <h3 class="t">Material</h3>
+    <div class="links">
+      <a href="el-anden-cafe.mp4" download>↓ VIDEO MP4</a>
+      <a href="EL_ANDEN_CAFE_Pitch.pptx" download>↓ DECK PPTX</a>
+      <a href="index.html">▶ DECK HTML</a>
+    </div>
+  </section>
+</main>
+
+<footer>Una pausa antes de seguir.<small>EL ANDÉN CAFÉ // THE MIDNIGHT STEAM</small></footer>
+<div id="toast"></div>
+
+<script>
+  const FPS = 60, TOTAL = 900;
+  const ACTS = [
+    { n:'I',   name:'LA IGNICIÓN', s:0,   e:210, c:'var(--molten)',   d:'Chispa, flash de 3 frames y farol. “EL MUNDO CORRE.”' },
+    { n:'II',  name:'LA MÁQUINA',  s:210, e:480, c:'var(--gold)',     d:'Dolly zoom, locomotora vectorial y vapor que se vuelve espresso.' },
+    { n:'III', name:'EL COLAPSO',  s:480, e:720, c:'var(--emerald)',  d:'Implosión, onda de choque y destello anamórfico.' },
+    { n:'IV',  name:'EL SELLO',    s:720, e:900, c:'var(--sapphire)', d:'Emblema que respira, caligrafía viva y fundido a negro.' },
+  ];
+  const SHOTS = [
+    [40,'Oscuridad · chispa'],[46,'Flash de exposición'],[100,'Farol y túnel'],[195,'“CORRE” se desintegra'],
+    [260,'Dolly zoom'],[320,'Locomotora y HUD'],[430,'Vapor de espresso'],[515,'Implosión'],
+    [560,'Se forja el sello'],[640,'Destello anamórfico'],[770,'Caligrafía viva'],[860,'Viñeta final'],
+  ];
+  const PALETTE = [['#030705','Carbón abisal'],['#0A140F','Bosque nocturno'],['#FFE259','Oro fundido'],['#FFA751','Ámbar'],['#00FFA3','Esmeralda neón'],['#00E5FF','Zafiro']];
+
+  const v = document.getElementById('v');
+  const tc = document.getElementById('tc');
+  const actLabel = document.getElementById('actLabel');
+  const playBtn = document.getElementById('play');
+  const slowBtn = document.getElementById('slow');
+
+  // Capítulos
+  const chapters = document.getElementById('chapters');
+  ACTS.forEach((a) => {
+    const el = document.createElement('div');
+    el.className = 'chap'; el.style.flex = a.e - a.s; el.style.setProperty('--c', a.c);
+    el.innerHTML = `<div class="fill"></div><b>ACTO ${a.n} · ${a.name}</b><span>f${a.s}–${a.e} · ${(a.s/FPS).toFixed(1)}–${(a.e/FPS).toFixed(1)} s</span><p>${a.d}</p>`;
+    el.onclick = () => seekFrame(a.s + 1, true);
+    a.el = el; chapters.appendChild(el);
+  });
+
+  // Galería
+  const gallery = document.getElementById('gallery');
+  SHOTS.forEach(([f, label]) => {
+    const fig = document.createElement('figure');
+    fig.className = 'shot';
+    fig.innerHTML = `<img loading="lazy" src="frames/f${String(f).padStart(3,'0')}.png" alt="${label}" /><figcaption><span>${label}</span><b>F${String(f).padStart(3,'0')}</b></figcaption>`;
+    fig.onclick = () => { seekFrame(f, false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+    gallery.appendChild(fig);
+  });
+
+  // Paleta
+  const pal = document.getElementById('palette');
+  PALETTE.forEach(([hex, name]) => {
+    const d = document.createElement('div');
+    d.className = 'sw';
+    d.innerHTML = `<div style="background:${hex}"></div><p><span>${name}</span>${hex}</p>`;
+    d.onclick = () => navigator.clipboard?.writeText(hex).then(() => toast(`${hex} COPIADO`));
+    pal.appendChild(d);
+  });
+
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1600);
+  }
+  function seekFrame(f, play) {
+    v.currentTime = Math.min(f, TOTAL - 1) / FPS;
+    if (play) v.play(); else v.pause();
+  }
+  function update() {
+    const f = Math.min(TOTAL, Math.floor(v.currentTime * FPS));
+    const s = Math.floor(f / FPS), ff = f % FPS;
+    tc.textContent = `TC 00:00:${String(s).padStart(2,'0')}:${String(ff).padStart(2,'0')} · F ${String(f).padStart(3,'0')} / ${TOTAL}`;
+    ACTS.forEach((a) => {
+      const on = f >= a.s && f < a.e;
+      a.el.classList.toggle('on', on);
+      const p = Math.max(0, Math.min(1, (f - a.s) / (a.e - a.s)));
+      a.el.querySelector('.fill').style.width = p * 100 + '%';
+      if (on) { actLabel.textContent = `ACTO ${a.n} · ${a.name}`; actLabel.style.color = a.c; }
+    });
+    playBtn.textContent = v.paused ? '▶ REPRODUCIR' : '❚❚ PAUSA';
+    requestAnimationFrame(update);
+  }
+  playBtn.onclick = () => (v.paused ? v.play() : v.pause());
+  slowBtn.onclick = () => {
+    v.playbackRate = v.playbackRate === 1 ? 0.25 : 1;
+    slowBtn.textContent = v.playbackRate === 1 ? '0.25×' : '1×';
+    toast(v.playbackRate === 1 ? 'VELOCIDAD NORMAL' : 'CÁMARA LENTA 0.25×');
+  };
+  v.onclick = () => (v.paused ? v.play() : v.pause());
+  addEventListener('keydown', (e) => {
+    if (e.key === ' ') { e.preventDefault(); v.paused ? v.play() : v.pause(); }
+    if (e.key === 'ArrowRight') { v.pause(); v.currentTime = Math.min(v.duration || 15, v.currentTime + 1 / FPS); }
+    if (e.key === 'ArrowLeft')  { v.pause(); v.currentTime = Math.max(0, v.currentTime - 1 / FPS); }
+  });
+  requestAnimationFrame(update);
+</script>
+</body>
+</html>

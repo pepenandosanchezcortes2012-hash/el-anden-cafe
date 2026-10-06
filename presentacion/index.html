@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EL ANDÉN CAFÉ: THE MIDNIGHT STEAM · Presentación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --abyss: #030705; --forest: #0A140F; --plate: #0F1D16;
+    --gold: #FFE259; --molten: #FFA751; --emerald: #00FFA3; --sapphire: #00E5FF;
+    --dim: #9FB3A8; --white: #fff;
+    --head: 'Oswald', Impact, 'Arial Narrow', sans-serif;
+    --mono: 'JetBrains Mono', Consolas, monospace;
+    --serif: 'Playfair Display', Georgia, serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #000; overflow: hidden; color: var(--white); }
+
+  /* Escenario 16:9 escalado al viewport */
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
+  #deck { position: relative; width: 1600px; height: 900px; transform-origin: center; }
+
+  .slide {
+    position: absolute; inset: 0; background: var(--abyss); overflow: hidden;
+    opacity: 0; visibility: hidden; transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+    transform: scale(1.02); padding: 72px 80px;
+  }
+  .slide.active { opacity: 1; visibility: visible; transform: scale(1); }
+  .slide::after { /* pie común */
+    content: 'EL ANDÉN CAFÉ // THE MIDNIGHT STEAM'; position: absolute; left: 80px; bottom: 30px;
+    font: 11px var(--mono); letter-spacing: 3px; color: var(--gold); opacity: .55;
+  }
+  .num { position: absolute; right: 80px; bottom: 30px; font: 11px var(--mono); color: var(--emerald); letter-spacing: 2px; }
+
+  .kicker { font: 700 14px var(--mono); letter-spacing: 5px; color: var(--emerald); margin-bottom: 14px; }
+  h1, h2 { font-family: var(--head); font-weight: 700; letter-spacing: 3px; text-transform: uppercase; line-height: 1.02; }
+  h2 { font-size: 64px; margin-bottom: 28px; }
+  p, li { font-family: var(--serif); color: var(--dim); font-size: 22px; line-height: 1.5; }
+  .gold { color: var(--gold); } .em { color: var(--emerald); }
+
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .veil { position: absolute; inset: 0; background: rgba(3,7,5,.55); }
+  .center { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+  /* Portada */
+  .cover h1 { font-size: 136px; color: var(--gold); letter-spacing: 12px; text-shadow: 0 0 40px rgba(255,226,89,.35); }
+  .cover .sub { font: 700 44px var(--head); letter-spacing: 22px; margin-top: 6px; }
+  .cover .tag { font: italic 30px var(--serif); color: var(--molten); margin-top: 34px; }
+  .cover .meta { font: 700 15px var(--mono); letter-spacing: 6px; color: var(--emerald); margin-bottom: 26px; }
+
+  .cards { display: grid; gap: 24px; }
+  .card { background: var(--plate); border: 1px solid var(--c, var(--gold)); padding: 30px; position: relative; }
+  .card::before { content: ''; position: absolute; left: 0; top: 0; right: 0; height: 4px; background: var(--c, var(--gold)); }
+  .card h3 { font: 700 26px var(--head); letter-spacing: 2px; color: var(--c, var(--gold)); margin-bottom: 12px; text-transform: uppercase; }
+  .card p { font-size: 18px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; align-items: center; }
+
+  .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+  .sw div { height: 190px; border: 1px solid #2A3A32; }
+  .sw b { display: block; font: 700 17px var(--head); letter-spacing: 1px; margin-top: 12px; }
+  .sw code { font: 13px var(--mono); color: var(--gold); }
+  .sw span { display: block; font: 14px var(--serif); color: var(--dim); }
+
+  .timeline { display: flex; margin-top: 30px; }
+  .timeline > div { padding-right: 18px; }
+  .timeline .bar { height: 54px; display: grid; place-items: center; font: 700 20px var(--head); color: var(--abyss); letter-spacing: 2px; margin-right: 6px; }
+  .timeline h3 { font: 700 24px var(--head); margin: 18px 0 2px; letter-spacing: 1px; }
+  .timeline code { font: 13px var(--mono); color: var(--white); }
+  .timeline p { font-size: 17px; margin-top: 12px; }
+
+  .act h2 { font-size: 50px; color: var(--c); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .pair figure { position: relative; }
+  .pair img { width: 100%; display: block; border: 1px solid #1d2b24; }
+  .pair figcaption { font: 12px var(--mono); color: var(--dim); margin-top: 6px; }
+  .act ul { list-style: none; margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 40px; }
+  .act li { color: var(--white); font-size: 19px; }
+  .act li::before { content: '▸ '; color: var(--c); }
+
+  video { width: 100%; display: block; border: 1px solid #1d2b24; background: #000; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { background: var(--gold); color: var(--abyss); font: 700 18px var(--head); letter-spacing: 2px; text-align: left; padding: 12px 18px; }
+  td { padding: 13px 18px; border-bottom: 1px solid #22332A; background: var(--plate); font: 19px var(--serif); }
+  td:first-child { font: 15px var(--mono); color: var(--gold); width: 26%; }
+
+  .deliv { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+  .deliv .row { display: flex; gap: 22px; margin-bottom: 26px; }
+  .deliv .row b { font: 700 48px var(--head); color: var(--emerald); line-height: 1; }
+  .deliv h3 { font: 700 26px var(--head); color: var(--gold); letter-spacing: 1px; }
+  .deliv p { font-size: 18px; }
+  .deliv img { width: 100%; border: 1px solid #1d2b24; }
+
+  /* HUD de navegación (no se imprime) */
+  #progress { position: fixed; left: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--emerald)); transition: width .5s cubic-bezier(.16,1,.3,1); z-index: 10; }
+  #hint { position: fixed; right: 18px; top: 14px; font: 11px var(--mono); color: rgba(255,226,89,.5); letter-spacing: 2px; z-index: 10; }
+
+  /* Exportar a PDF: Ctrl+P → Guardar como PDF (horizontal, sin márgenes) */
+  @page { size: 1600px 900px; margin: 0; }
+  @media print {
+    html, body { overflow: visible; height: auto; background: var(--abyss); }
+    #stage { position: static; display: block; }
+    #deck { transform: none !important; width: 1600px; height: auto; }
+    .slide { position: relative; opacity: 1; visibility: visible; transform: none; width: 1600px; height: 900px; page-break-after: always; break-after: page; }
+    #progress, #hint { display: none; }
+    video { display: none; }
+    .print-only { display: block !important; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .print-only { display: none; }
+</style>
+</head>
+<body>
+<div id="stage"><div id="deck">
+
+  <!-- 1 · PORTADA -->
+  <section class="slide cover">
+    <img class="bg" src="frames/f860.png" alt="" />
+    <div class="veil"></div>
+    <div class="center">
+      <div class="meta">CINEMATIC BRAND FILM · 15 s · 60 FPS · 100% SILENCIOSO</div>
+      <h1>EL ANDÉN CAFÉ</h1>
+      <div class="sub">THE MIDNIGHT STEAM</div>
+      <div class="tag">“Una pausa antes de seguir”</div>
+    </div>
+  </section>
+
+  <!-- 2 · EL FILM -->
+  <section class="slide">
+    <div class="kicker">00 // EL FILM</div>
+    <h2 style="font-size:48px;margin-bottom:22px">15 segundos. <span class="gold">Cero sonido.</span></h2>
+    <video src="el-anden-cafe.mp4" controls muted playsinline preload="metadata" poster="frames/f640.png" style="max-height:640px"></video>
+    <img class="print-only" src="frames/f640.png" style="width:100%" alt="" />
+  </section>
+
+  <!-- 3 · EL RETO -->
+  <section class="slide">
+    <div class="kicker">01 // EL RETO</div>
+    <h2>Un film sin un solo sonido.</h2>
+    <p style="max-width:1300px;margin-bottom:46px">Sin música, sin voz y sin efectos de sonido, la imagen tiene que hacer todo el trabajo: marcar el ritmo, provocar impacto y sostener la atención durante 15 segundos.</p>
+    <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card" style="--c:var(--gold)"><h3>Contraste lumínico</h3><p>Picos de exposición, flash blanco de 3 frames y oro hiperbrillante sobre negro abisal.</p></div>
+      <div class="card" style="--c:var(--sapphire)"><h3>Óptica anamórfica</h3><p>Aberración cromática RGB y destellos horizontales que funcionan como “golpes” visuales.</p></div>
+      <div class="card" style="--c:var(--emerald)"><h3>Tipografía cinética</h3><p>Texto que entra con resorte, se desintegra y se dibuja; él lleva el ritmo.</p></div>
+    </div>
+  </section>
+
+  <!-- 4 · CONCEPTO -->
+  <section class="slide" style="padding-right:0">
+    <div class="split" style="grid-template-columns:1fr 1.05fr">
+      <div>
+        <div class="kicker">02 // CONCEPTO</div>
+        <h2 style="font-size:70px;margin-bottom:6px">El mundo corre.</h2>
+        <h2 class="gold" style="font-size:70px">Nosotros paramos.</h2>
+        <p>El andén es el único lugar de una estación donde se permite esperar. <b style="color:#fff;font-weight:500">El Andén Café</b> convierte esa espera en un ritual: la velocidad del tren contra la paciencia de un espresso bien hecho.</p>
+        <p style="margin-top:18px">El film va de la máquina al grano: de la locomotora, que es prisa, a la cafetera, que es precisión.</p>
+      </div>
+      <img src="frames/f195.png" alt="" style="height:900px;width:100%;object-fit:cover;margin:-72px 0" />
+    </div>
+  </section>
+
+  <!-- 5 · SISTEMA VISUAL -->
+  <section class="slide">
+    <div class="kicker">03 // SISTEMA VISUAL</div>
+    <h2>Paleta de alto contraste</h2>
+    <div class="swatches">
+      <div class="sw"><div style="background:#030705"></div><b>Carbón abisal</b><code>#030705</code><span>Fondo</span></div>
+      <div class="sw"><div style="background:#0A140F"></div><b>Bosque nocturno</b><code>#0A140F</code><span>Fondo</span></div>
+      <div class="sw"><div style="background:#FFE259"></div><b>Oro fundido</b><code>#FFE259</code><span>Luz principal</span></div>
+      <div class="sw"><div style="background:#FFA751"></div><b>Ámbar</b><code>#FFA751</code><span>Luz cálida</span></div>
+      <div class="sw"><div style="background:#00FFA3"></div><b>Esmeralda neón</b><code>#00FFA3</code><span>Advertencia / HUD</span></div>
+      <div class="sw"><div style="background:#00E5FF"></div><b>Zafiro</b><code>#00E5FF</code><span>Destello anamórfico</span></div>
+    </div>
+    <div class="cards" style="grid-template-columns:repeat(3,1fr);margin-top:44px;gap:30px">
+      <div><div class="kicker" style="font-size:11px;margin-bottom:6px">GROTESCA CONDENSADA</div><div style="font:700 34px var(--head);color:var(--gold);letter-spacing:3px">EL MUNDO CORRE.</div><p style="font-size:15px">Impacto: titulares en mayúscula sostenida</p></div>
+      <div><div class="kicker" style="font-size:11px;margin-bottom:6px">MONOESPACIADA TÉCNICA</div><div style="font:700 22px var(--mono);color:var(--gold);padding:8px 0">[ 02 // PRESIÓN EXACTA ]</div><p style="font-size:15px">Precisión: lecturas HUD y telemetría</p></div>
+      <div><div class="kicker" style="font-size:11px;margin-bottom:6px">SERIF CALIGRÁFICA</div><div style="font:italic 32px var(--serif);color:var(--gold)">Una pausa antes de seguir</div><p style="font-size:15px">Calidez: firma de marca</p></div>
+    </div>
+  </section>
+
+  <!-- 6 · ESTRUCTURA -->
+  <section class="slide">
+    <div class="kicker">04 // ESTRUCTURA</div>
+    <h2>900 frames · 4 actos</h2>
+    <div class="timeline">
+      <div style="flex:210"><div class="bar" style="background:var(--molten)">ACTO I</div><h3 style="color:var(--molten)">La ignición</h3><code>0 – 3.5 s · 210 f</code><p>Oscuridad, chispa, flash de 3 frames. El farol revela el túnel. “EL MUNDO CORRE.”</p></div>
+      <div style="flex:270"><div class="bar" style="background:var(--gold)">ACTO II</div><h3 class="gold">La máquina</h3><code>3.5 – 8.0 s · 270 f</code><p>Dolly zoom tipo Vértigo, locomotora vectorial en movimiento, vapor que se vuelve espresso. HUD técnico.</p></div>
+      <div style="flex:240"><div class="bar" style="background:var(--emerald)">ACTO III</div><h3 class="em">El colapso</h3><code>8.0 – 12.0 s · 240 f</code><p>Implosión gravitacional, onda de choque, se forja el sello y lo cruza un destello anamórfico.</p></div>
+      <div style="flex:180"><div class="bar" style="background:var(--sapphire)">ACTO IV</div><h3 style="color:var(--sapphire)">El sello</h3><code>12.0 – 15.0 s · 180 f</code><p>El emblema respira. Caligrafía viva. Viñeta y fundido a negro en el frame 885.</p></div>
+    </div>
+  </section>
+
+  <!-- 7–10 · ACTOS -->
+  <section class="slide act" style="--c:var(--molten)">
+    <div class="kicker">ACTO I // FRAMES 0–210</div>
+    <h2>La ignición en la penumbra</h2>
+    <div class="pair"><figure><img src="frames/f046.png" alt="" /><figcaption>f046 · flash de exposición</figcaption></figure><figure><img src="frames/f100.png" alt="" /><figcaption>f100 · farol y túnel</figcaption></figure></div>
+    <ul><li>Chispa (f18) y flash blanco de exposición (f45–48)</li><li>Farol victoriano con lente Fresnel y haz volumétrico</li><li>Túnel de arcos en un punto de fuga · perspective 1200px</li><li>“CORRE” se desintegra en líneas de velocidad</li></ul>
+  </section>
+
+  <section class="slide act" style="--c:var(--gold)">
+    <div class="kicker">ACTO II // FRAMES 210–480</div>
+    <h2>La máquina y el grano</h2>
+    <div class="pair"><figure><img src="frames/f320.png" alt="" /><figcaption>f320 · locomotora y HUD</figcaption></figure><figure><img src="frames/f430.png" alt="" /><figcaption>f430 · vapor de espresso</figcaption></figure></div>
+    <ul><li>Dolly zoom: scale + perspectiveOrigin</li><li>Biela-manivela calculada por frame, engranajes 18:12</li><li>Vapor de locomotora → vapor de espresso (feDisplacementMap)</li><li>HUD: Tostado lento · Presión exacta · Alta montaña</li></ul>
+  </section>
+
+  <section class="slide act" style="--c:var(--emerald)">
+    <div class="kicker">ACTO III // FRAMES 480–720</div>
+    <h2>El colapso y la síntesis</h2>
+    <div class="pair"><figure><img src="frames/f515.png" alt="" /><figcaption>f515 · implosión</figcaption></figure><figure><img src="frames/f640.png" alt="" /><figcaption>f640 · destello anamórfico</figcaption></figure></div>
+    <ul><li>Implosión con aceleración bezier(0.7, 0, 0.84, 0)</li><li>Onda de choque oro + esmeralda en el impacto (f535)</li><li>El aro dorado gira −90° → 0° y sella la lente</li><li>Destello anamórfico cruza el emblema (f620–700)</li></ul>
+  </section>
+
+  <section class="slide act" style="--c:var(--sapphire)">
+    <div class="kicker">ACTO IV // FRAMES 720–900</div>
+    <h2>El sello inmortal</h2>
+    <div class="pair"><figure><img src="frames/f770.png" alt="" /><figcaption>f770 · emblema y caligrafía</figcaption></figure><figure><img src="frames/f860.png" alt="" /><figcaption>f860 · viñeta de cierre</figcaption></figure></div>
+    <ul><li>Pulso magnético del emblema: scale 1.000 ↔ 1.014</li><li>“Una pausa antes de seguir” trazada con strokeDashoffset</li><li>La viñeta cierra hasta dejar solo farol y texto</li><li>Fundido a negro absoluto en el frame 885</li></ul>
+  </section>
+
+  <!-- 11 · MOTOR ÓPTICO -->
+  <section class="slide">
+    <div class="kicker">05 // MOTOR ÓPTICO</div>
+    <h2>Cómo se compensa el silencio</h2>
+    <div class="cards" style="grid-template-columns:1fr 1fr">
+      <div class="card" style="--c:var(--sapphire)"><h3>Aberración cromática</h3><p>Canales R, G y B separados con feColorMatrix y recombinados en modo screen. Desfase de 2 a 4 px en los momentos de impacto.</p></div>
+      <div class="card" style="--c:var(--gold)"><h3>Destello anamórfico</h3><p>Destello horizontal zafiro y oro que cruza la pantalla con interpolación exponencial.</p></div>
+      <div class="card" style="--c:var(--molten)"><h3>Distorsión de calor</h3><p>feTurbulence + feDisplacementMap con baseFrequency animada por frame: el vapor refracta la luz.</p></div>
+      <div class="card" style="--c:var(--emerald)"><h3>Polvo dorado</h3><p>55–85 partículas deterministas (seno/coseno) suspendidas en el haz del farol. Mismo resultado en cada render.</p></div>
+    </div>
+  </section>
+
+  <!-- 12 · FICHA TÉCNICA -->
+  <section class="slide">
+    <div class="kicker">06 // ESPECIFICACIONES</div>
+    <h2>Ficha técnica</h2>
+    <table>
+      <tr><th>Parámetro</th><th>Valor</th></tr>
+      <tr><td>Duración</td><td>900 frames · 15.0 s exactos</td></tr>
+      <tr><td>Frame rate</td><td>60 fps</td></tr>
+      <tr><td>Resolución</td><td>1920×1080 (encuadre 2.39:1) · versión 4K 3840×2160</td></tr>
+      <tr><td>Audio</td><td>Ninguno: 100% silencioso por diseño</td></tr>
+      <tr><td>Stack</td><td>Remotion 4 · React 18 · TypeScript estricto</td></tr>
+      <tr><td>Arte</td><td>100% SVG paramétrico, sin imágenes rasterizadas</td></tr>
+      <tr><td>Animación</td><td>Función pura de frame y fps; spring() y bezier(0.16, 1, 0.3, 1)</td></tr>
+      <tr><td>Salida</td><td>MP4 H.264</td></tr>
+    </table>
+  </section>
+
+  <!-- 13 · ENTREGABLES -->
+  <section class="slide">
+    <div class="kicker">07 // ENTREGABLES</div>
+    <h2>Qué se entrega</h2>
+    <div class="deliv">
+      <div>
+        <div class="row"><b>01</b><div><h3>Master 1080p</h3><p>el-anden-cafe.mp4 · H.264 · 60 fps</p></div></div>
+        <div class="row"><b>02</b><div><h3>Master 4K</h3><p>Composición MainComposition-4K lista para render</p></div></div>
+        <div class="row"><b>03</b><div><h3>Código fuente</h3><p>Proyecto Remotion modular: actos, ópticas, partículas y SVG</p></div></div>
+        <div class="row"><b>04</b><div><h3>Presentación</h3><p>Este deck en HTML + PPTX + página interactiva</p></div></div>
+      </div>
+      <img src="frames/f640.png" alt="" />
+    </div>
+  </section>
+
+  <!-- 14 · CIERRE -->
+  <section class="slide">
+    <img class="bg" src="frames/f770.png" alt="" />
+    <div class="veil" style="background:rgba(3,7,5,.62)"></div>
+    <div class="center">
+      <div style="font:italic 64px var(--serif);color:var(--gold);text-shadow:0 0 30px rgba(255,226,89,.4)">Una pausa antes de seguir.</div>
+      <div style="font:700 30px var(--head);letter-spacing:20px;margin-top:22px">GRACIAS</div>
+    </div>
+  </section>
+
+</div></div>
+<div id="progress"></div>
+<div id="hint">← → navegar · F pantalla completa · Ctrl+P exportar PDF</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const deck = document.getElementById('deck');
+  const progress = document.getElementById('progress');
+  slides.forEach((s, i) => {
+    const n = document.createElement('div');
+    n.className = 'num';
+    n.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    s.appendChild(n);
+  });
+
+  let idx = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+  function show(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, k) => s.classList.toggle('active', k === idx));
+    progress.style.width = ((idx + 1) / slides.length) * 100 + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+    document.querySelectorAll('video').forEach((v) => {
+      if (v.closest('.slide') === slides[idx]) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause();
+    });
+  }
+  function fit() {
+    const s = Math.min(innerWidth / 1600, innerHeight / 900);
+    deck.style.transform = `scale(${s})`;
+  }
+  addEventListener('resize', fit);
+  addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(idx + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(idx - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key.toLowerCase() === 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  });
+  addEventListener('click', (e) => {
+    if (e.target.closest('video')) return;
+    show(idx + (e.clientX > innerWidth / 2 ? 1 : -1));
+  });
+  fit(); show(idx);
+</script>
+</body>
+</html>
