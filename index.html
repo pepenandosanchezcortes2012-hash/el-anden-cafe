@@ -17,16 +17,24 @@
   a { color:var(--emerald); }
   .wrap { max-width:1280px; margin:0 auto; padding:0 32px; }
 
-  header { padding:64px 0 28px; text-align:center; background:radial-gradient(ellipse at 50% 0%, rgba(255,226,89,.10), transparent 60%); }
+  header { padding:64px 0 24px; text-align:center; background:radial-gradient(ellipse at 50% 0%, rgba(255,226,89,.12), transparent 60%); }
   header .meta { font:700 12px var(--mono); letter-spacing:6px; color:var(--emerald); }
   header h1 { font:700 clamp(48px,8vw,104px) var(--head); color:var(--gold); letter-spacing:10px; margin:14px 0 2px; text-shadow:0 0 40px rgba(255,226,89,.3); }
   header h2 { font:700 clamp(18px,2.4vw,30px) var(--head); letter-spacing:16px; }
   header p { font:italic 22px var(--serif); color:var(--molten); margin-top:18px; }
 
+  .hero-nav { display:flex; justify-content:center; gap:16px; margin:26px 0 10px; flex-wrap:wrap; }
+  .hero-nav a { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; font:700 12px var(--mono); letter-spacing:2px; text-decoration:none; transition:all .2s; }
+  .hero-nav .primary { background:var(--gold); color:var(--abyss); box-shadow:0 0 20px rgba(255,226,89,.3); }
+  .hero-nav .primary:hover { background:#fff; transform:translateY(-2px); }
+  .hero-nav .secondary { border:1px solid var(--emerald); color:var(--emerald); }
+  .hero-nav .secondary:hover { background:var(--emerald); color:var(--abyss); transform:translateY(-2px); }
+
   /* Player */
-  .player { margin-top:26px; border:1px solid var(--line); background:#000; }
+  .player { margin-top:20px; border:1px solid var(--line); background:#000; position:relative; overflow:hidden; }
   video { width:100%; display:block; }
-  .hud { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--forest); border-top:1px solid var(--line); font:12px var(--mono); letter-spacing:2px; }
+  #simImg { width:100%; display:none; }
+  .hud { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--forest); border-top:1px solid var(--line); font:12px var(--mono); letter-spacing:2px; flex-wrap:wrap; gap:8px; }
   .hud .tc { color:var(--emerald); }
   .hud button { background:none; border:1px solid var(--gold); color:var(--gold); font:700 12px var(--mono); letter-spacing:2px; padding:8px 16px; cursor:pointer; }
   .hud button:hover { background:var(--gold); color:var(--abyss); }
@@ -68,12 +76,12 @@
   td:first-child { font:13px var(--mono); color:var(--gold); width:30%; letter-spacing:1px; }
 
   .links { display:flex; gap:14px; flex-wrap:wrap; }
-  .links a { border:1px solid var(--emerald); padding:14px 22px; font:700 13px var(--mono); letter-spacing:2px; text-decoration:none; }
+  .links a { border:1px solid var(--emerald); padding:14px 22px; font:700 13px var(--mono); letter-spacing:2px; text-decoration:none; transition:all .2s; }
   .links a:hover { background:var(--emerald); color:var(--abyss); }
 
   footer { padding:80px 0 50px; text-align:center; font:italic 26px var(--serif); color:var(--gold); }
   footer small { display:block; font:11px var(--mono); color:var(--dim); letter-spacing:3px; font-style:normal; margin-top:14px; }
-  #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--gold); color:var(--abyss); font:700 12px var(--mono); padding:10px 18px; letter-spacing:2px; transition:transform .4s cubic-bezier(.16,1,.3,1); }
+  #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--gold); color:var(--abyss); font:700 12px var(--mono); padding:10px 18px; letter-spacing:2px; transition:transform .4s cubic-bezier(.16,1,.3,1); z-index:99; }
   #toast.show { transform:translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -84,12 +92,18 @@
     <h1>EL ANDÉN CAFÉ</h1>
     <h2>THE MIDNIGHT STEAM</h2>
     <p>“Una pausa antes de seguir”</p>
+
+    <div class="hero-nav">
+      <a href="deck.html" class="primary">📺 VER PITCH DECK PANTALLA COMPLETA (14 SLIDES) →</a>
+      <a href="EL_ANDEN_CAFE_Pitch.pptx" download class="secondary">📊 DESCARGAR PRESENTACIÓN POWERPOINT (.PPTX) ↓</a>
+    </div>
   </div>
 </header>
 
 <main class="wrap">
   <div class="player">
     <video id="v" src="el-anden-cafe.mp4" poster="frames/f640.png" muted playsinline preload="auto"></video>
+    <img id="simImg" src="frames/f640.png" alt="" />
     <div class="hud">
       <span class="tc" id="tc">TC 00:00:00:00 · F 000 / 900</span>
       <span id="actLabel" style="color:var(--gold)">—</span>
@@ -139,12 +153,12 @@
   </section>
 
   <section>
-    <div class="kicker">DESCARGAS</div>
-    <h3 class="t">Material</h3>
+    <div class="kicker">DESCARGAS Y ENLACES</div>
+    <h3 class="t">Material de Producción</h3>
     <div class="links">
-      <a href="el-anden-cafe.mp4" download>↓ VIDEO MP4</a>
-      <a href="EL_ANDEN_CAFE_Pitch.pptx" download>↓ DECK PPTX</a>
-      <a href="index.html">▶ DECK HTML</a>
+      <a href="deck.html">▶ PITCH DECK HTML</a>
+      <a href="EL_ANDEN_CAFE_Pitch.pptx" download>↓ DECK POWERPOINT (.PPTX)</a>
+      <a href="el-anden-cafe.mp4" download>↓ MASTER VIDEO MP4</a>
     </div>
   </section>
 </main>
@@ -168,10 +182,23 @@
   const PALETTE = [['#030705','Carbón abisal'],['#0A140F','Bosque nocturno'],['#FFE259','Oro fundido'],['#FFA751','Ámbar'],['#00FFA3','Esmeralda neón'],['#00E5FF','Zafiro']];
 
   const v = document.getElementById('v');
+  const simImg = document.getElementById('simImg');
   const tc = document.getElementById('tc');
   const actLabel = document.getElementById('actLabel');
   const playBtn = document.getElementById('play');
   const slowBtn = document.getElementById('slow');
+
+  let isSimulated = false;
+  let simTime = 0;
+  let simPlaying = false;
+  let simRate = 1.0;
+  let lastTick = performance.now();
+
+  v.addEventListener('error', () => {
+    isSimulated = true;
+    v.style.display = 'none';
+    simImg.style.display = 'block';
+  });
 
   // Capítulos
   const chapters = document.getElementById('chapters');
@@ -189,7 +216,7 @@
     const fig = document.createElement('figure');
     fig.className = 'shot';
     fig.innerHTML = `<img loading="lazy" src="frames/f${String(f).padStart(3,'0')}.png" alt="${label}" /><figcaption><span>${label}</span><b>F${String(f).padStart(3,'0')}</b></figcaption>`;
-    fig.onclick = () => { seekFrame(f, false); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+    fig.onclick = () => { seekFrame(f, false); window.scrollTo({ top: 180, behavior: 'smooth' }); };
     gallery.appendChild(fig);
   });
 
@@ -208,14 +235,56 @@
     t.textContent = msg; t.classList.add('show');
     clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1600);
   }
-  function seekFrame(f, play) {
-    v.currentTime = Math.min(f, TOTAL - 1) / FPS;
-    if (play) v.play(); else v.pause();
+
+  function getFrameImage(frame) {
+    let closest = SHOTS[0][0];
+    for (const [f] of SHOTS) {
+      if (f <= frame) closest = f;
+      else break;
+    }
+    return `frames/f${String(closest).padStart(3, '0')}.png`;
   }
+
+  function seekFrame(f, play) {
+    const targetSec = Math.min(f, TOTAL - 1) / FPS;
+    if (!isSimulated && v.readyState >= 2) {
+      v.currentTime = targetSec;
+      if (play) v.play().catch(() => {}); else v.pause();
+    } else {
+      simTime = targetSec;
+      simImg.src = getFrameImage(f);
+      simPlaying = play;
+    }
+  }
+
   function update() {
-    const f = Math.min(TOTAL, Math.floor(v.currentTime * FPS));
+    const now = performance.now();
+    const dt = (now - lastTick) / 1000;
+    lastTick = now;
+
+    let curSec = 0;
+    let isPaused = true;
+
+    if (!isSimulated && v.readyState >= 2) {
+      curSec = v.currentTime;
+      isPaused = v.paused;
+    } else {
+      if (simPlaying) {
+        simTime += dt * simRate;
+        if (simTime >= (TOTAL / FPS)) {
+          simTime = 0;
+        }
+      }
+      curSec = simTime;
+      isPaused = !simPlaying;
+      const curF = Math.min(TOTAL, Math.floor(curSec * FPS));
+      simImg.src = getFrameImage(curF);
+    }
+
+    const f = Math.min(TOTAL, Math.floor(curSec * FPS));
     const s = Math.floor(f / FPS), ff = f % FPS;
     tc.textContent = `TC 00:00:${String(s).padStart(2,'0')}:${String(ff).padStart(2,'0')} · F ${String(f).padStart(3,'0')} / ${TOTAL}`;
+    
     ACTS.forEach((a) => {
       const on = f >= a.s && f < a.e;
       a.el.classList.toggle('on', on);
@@ -223,21 +292,45 @@
       a.el.querySelector('.fill').style.width = p * 100 + '%';
       if (on) { actLabel.textContent = `ACTO ${a.n} · ${a.name}`; actLabel.style.color = a.c; }
     });
-    playBtn.textContent = v.paused ? '▶ REPRODUCIR' : '❚❚ PAUSA';
+
+    playBtn.textContent = isPaused ? '▶ REPRODUCIR' : '❚❚ PAUSA';
     requestAnimationFrame(update);
   }
-  playBtn.onclick = () => (v.paused ? v.play() : v.pause());
-  slowBtn.onclick = () => {
-    v.playbackRate = v.playbackRate === 1 ? 0.25 : 1;
-    slowBtn.textContent = v.playbackRate === 1 ? '0.25×' : '1×';
-    toast(v.playbackRate === 1 ? 'VELOCIDAD NORMAL' : 'CÁMARA LENTA 0.25×');
+
+  playBtn.onclick = () => {
+    if (!isSimulated && v.readyState >= 2) {
+      if (v.paused) v.play().catch(() => {}); else v.pause();
+    } else {
+      simPlaying = !simPlaying;
+    }
   };
-  v.onclick = () => (v.paused ? v.play() : v.pause());
+
+  slowBtn.onclick = () => {
+    if (!isSimulated && v.readyState >= 2) {
+      v.playbackRate = v.playbackRate === 1 ? 0.25 : 1;
+      slowBtn.textContent = v.playbackRate === 1 ? '0.25×' : '1×';
+    } else {
+      simRate = simRate === 1 ? 0.25 : 1;
+      slowBtn.textContent = simRate === 1 ? '0.25×' : '1×';
+    }
+    toast(slowBtn.textContent === '0.25×' ? 'CÁMARA LENTA 0.25×' : 'VELOCIDAD NORMAL');
+  };
+
+  v.onclick = () => playBtn.click();
+  simImg.onclick = () => playBtn.click();
+
   addEventListener('keydown', (e) => {
-    if (e.key === ' ') { e.preventDefault(); v.paused ? v.play() : v.pause(); }
-    if (e.key === 'ArrowRight') { v.pause(); v.currentTime = Math.min(v.duration || 15, v.currentTime + 1 / FPS); }
-    if (e.key === 'ArrowLeft')  { v.pause(); v.currentTime = Math.max(0, v.currentTime - 1 / FPS); }
+    if (e.key === ' ') { e.preventDefault(); playBtn.click(); }
+    if (e.key === 'ArrowRight') {
+      const cur = (!isSimulated && v.readyState >= 2) ? v.currentTime : simTime;
+      seekFrame(Math.floor((cur + 1/FPS) * FPS), false);
+    }
+    if (e.key === 'ArrowLeft') {
+      const cur = (!isSimulated && v.readyState >= 2) ? v.currentTime : simTime;
+      seekFrame(Math.max(0, Math.floor((cur - 1/FPS) * FPS)), false);
+    }
   });
+
   requestAnimationFrame(update);
 </script>
 </body>
